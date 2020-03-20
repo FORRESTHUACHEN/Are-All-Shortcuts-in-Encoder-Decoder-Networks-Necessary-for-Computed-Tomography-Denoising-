@@ -64,9 +64,9 @@ for i=1:20
        Image(find(Image>2000))=2000;
        Image=double(Image);
        Image=uint8(Image.*rate);
-       #Image_to_write(:,:,1)=[NoisedImage2,Image];
-       #Image_to_write(:,:,2)=[NoisedImage2,Image];
-       #Image_to_write(:,:,3)=[NoisedImage2,Image];
+       %Image_to_write(:,:,1)=[NoisedImage2,Image];
+       %Image_to_write(:,:,2)=[NoisedImage2,Image];
+       %Image_to_write(:,:,3)=[NoisedImage2,Image];
 
        RMSE1=RMSE1+immse(NoisedImage, Original_Image);
        %dicomwrite(NoisedImage,[NoisedDicom,sprintf('%06d',j),'.dcm'],info);
