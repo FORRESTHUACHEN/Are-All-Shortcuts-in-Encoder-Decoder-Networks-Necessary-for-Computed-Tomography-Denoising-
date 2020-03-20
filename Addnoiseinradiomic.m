@@ -1,12 +1,18 @@
 clc;
 clear;
+%Rootpath was used to store the original dataset
 Rootpath='D:\Dataset\CTDenoisingDataset\NSCLC-Radiomics\';
-Fileindex=textread([Rootpath,'UseableIndex.txt']);
 RMSE1=0;
-CGANlowTest='D:\Dataset\CTDenoisingDataset\CGANData\LownoisedTestdataset\val\';
-CGANlowDicom='D:\Dataset\CTDenoisingDataset\CGANData\LownoisedTestdataset\Dicom\';
+%TestNoise was used to store the noised jpg images
+TestNoise='D:\Dataset\CTDenoisingDataset\CGANData\LownoisedTestdataset\val\'; 
+%Teststandard was used to store standard jpg images
+Teststandard='D:\Dataset\CTDenoisingDataset\CGANData\LownoisedTestdataset\val2\'; 
+%Dicom was used to store the noised CT images
+Dicom='D:\Dataset\CTDenoisingDataset\CGANData\LownoisedTestdataset\Dicom\';
+%count was used to counter the number of noised images
 count=0;
-for i=1:size(Fileindex,1)    
+% You can change this number to decade how many patients' CT you want to add noise
+for i=1:20  
     Path1=[Rootpath,'LUNG1-',sprintf('%03d',Fileindex(i))];
     File2=dir(fullfile(Path1));
     for t=1:size(File2,1)
@@ -37,15 +43,16 @@ for i=1:size(Fileindex,1)
        for t=1:180
            Radon_Image_line=radon(Image,theta(t));
            for s=1:729
+           %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+           %The parameter 0.0025 was the core of this code, this parameter control the 
+           %intensity of noise which will be added to CT.
+           %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 Radon_Image_line(s)=(1+normrnd(0,0.0025))*Radon_Image_line(s);
            end    
            Noised_Radon_Image=[Noised_Radon_Image,Radon_Image_line];
        end
        [Radon_Image,x]=radon(Image,theta);
        Original_Image=Image;
-       %low=min(min(Image));
-       %high=max(max(Image));
-       %maxgray=high-low;
        rate=double(256.0/2000);
        Antiradon_Image=uint16(iradon(Radon_Image,theta));
        Radon_noise=Image-(Antiradon_Image(2:513,2:513));
@@ -57,17 +64,17 @@ for i=1:size(Fileindex,1)
        Image(find(Image>2000))=2000;
        Image=double(Image);
        Image=uint8(Image.*rate);
-       Image_to_write(:,:,1)=[NoisedImage2,Image];
-       Image_to_write(:,:,2)=[NoisedImage2,Image];
-       Image_to_write(:,:,3)=[NoisedImage2,Image];
+       #Image_to_write(:,:,1)=[NoisedImage2,Image];
+       #Image_to_write(:,:,2)=[NoisedImage2,Image];
+       #Image_to_write(:,:,3)=[NoisedImage2,Image];
 
        RMSE1=RMSE1+immse(NoisedImage, Original_Image);
        %dicomwrite(NoisedImage,[NoisedDicom,sprintf('%06d',j),'.dcm'],info);
        dicomwrite(NoisedImage,[CGANlowDicom,sprintf('%06d',count),'.dcm'],info);
-       imwrite(Image_to_write,[CGANlowTest,sprintf('%06d',count),'.jpg']);
+       %imwrite(Image_to_write,[CGANlowTest,sprintf('%06d',count),'.jpg']);
        count=count+1;
-       %imwrite(Image,[StandardImage,'\',sprintf('%06d',j),'.jpg']);
-       %imwrite(NoisedImage2,[NoisedFile,'\',sprintf('%06d',j),'.jpg']);
+       imwrite(Image,[Teststandard,'\',sprintf('%06d',j),'.jpg']);
+       imwrite(NoisedImage2,[TestNoise,'\',sprintf('%06d',j),'.jpg']);
     end
     RMSE1=RMSE1/size(File4,1);
 end
