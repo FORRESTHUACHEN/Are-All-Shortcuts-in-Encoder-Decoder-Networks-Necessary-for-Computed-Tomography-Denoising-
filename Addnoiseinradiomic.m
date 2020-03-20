@@ -70,7 +70,7 @@ for i=1:20
 
        RMSE1=RMSE1+immse(NoisedImage, Original_Image);
        %dicomwrite(NoisedImage,[NoisedDicom,sprintf('%06d',j),'.dcm'],info);
-       dicomwrite(NoisedImage,[CGANlowDicom,sprintf('%06d',count),'.dcm'],info);
+       dicomwrite(NoisedImage,[Dicom,sprintf('%06d',count),'.dcm'],info);
        %imwrite(Image_to_write,[CGANlowTest,sprintf('%06d',count),'.jpg']);
        count=count+1;
        imwrite(Image,[Teststandard,'\',sprintf('%06d',j),'.jpg']);
