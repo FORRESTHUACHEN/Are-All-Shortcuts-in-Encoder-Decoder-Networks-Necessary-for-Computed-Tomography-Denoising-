@@ -8,11 +8,13 @@ import numpy as np
 #类别
 #tfrecords格式文件名
 writer= tf.python_io.TFRecordWriter("D:/Dataset/CTDenoisingDataset/Testshortcutset/0.08/008_full_test.tfrecords") 
+#the path for store the noised jpg images
 class_path1='D:/Dataset/CTDenoisingDataset/Testshortcutset/0.08/val/Noised_full/'
+#the path for store the standard jpg images
 class_path2='D:/Dataset/CTDenoisingDataset/Testshortcutset/0.08/val/Standard_full/'
 count=1
 for img_name in os.listdir(class_path1): 
-    img_path1=class_path1+img_name #每一个图片的地址
+    img_path1=class_path1+img_name #the full path of images
     img_path2=class_path2+img_name
     img1=Image.open(img_path1)
     img2=Image.open(img_path2)
