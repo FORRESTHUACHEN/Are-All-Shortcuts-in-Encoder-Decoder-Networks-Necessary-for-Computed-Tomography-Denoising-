@@ -13,7 +13,7 @@ Dicom='D:\Dataset\CTDenoisingDataset\CGANData\LownoisedTestdataset\Dicom\';
 count=0;
 % You can change this number to decade how many patients' CT you want to add noise
 for i=1:20  
-    Path1=[Rootpath,'LUNG1-',sprintf('%03d',Fileindex(i))];
+    Path1=[Rootpath,'LUNG1-',sprintf('%03d',i)];
     File2=dir(fullfile(Path1));
     for t=1:size(File2,1)
         if strfind(File2(t).name,'StudyID')
