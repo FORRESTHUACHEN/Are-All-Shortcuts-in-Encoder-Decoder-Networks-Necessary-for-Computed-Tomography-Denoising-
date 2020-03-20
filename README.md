@@ -5,7 +5,10 @@ The aim of this project is finding out the necessarity of all shortcuts in encod
 
 First of all, datasets which were used in our papaer can be found in Low Dose CT Grand Challenge (https://www.aapm.org/GrandChallenge/LowDoseCT/, called as LDGC in the following section)  and NSCLC-Radiomics(https://wiki.cancerimagingarchive.net/display/Public/NSCLC-Radiomics, called as LUNG 1 in the following section).
 
-As we mentionded in the paper, we simulated noisy images based on LDGC and LUNG 1, we used Addnoiseinradiomic.m to finish this task, a matlab source code.
+As we mentionded in the paper, we simulated noisy images based on LDGC and LUNG 1, we used Addnoiseinradiomic.m to finish this task, a matlab script.
 
-We used tfrecord as the input file of our encoder-decoder network, therefore, we need make tfrecord based on paired noised and standard images at first. This part of job was finsihed by using Tfwrite.py, a python source code.
+We used tfrecord as the input file of our encoder-decoder network, therefore, we need make tfrecord based on paired noised and standard images at first. This part of job was finsihed by using Tfwrite.py, a python script.
 
+The generated tfrecords were used to train the encoder-decoder network and then the trained network used to denoise images. This part of job was finished by Second-Encoder-Decoder-networkRealdata.py, a python script.
+
+We used pretrained VGG-16 network to calculate content loss, the pretrained network can be found in https://mega.nz/#!YU1FWJrA!O1ywiCS2IiOlUCtCpI6HTJOMrneN-Qdv3ywQP5poecM
