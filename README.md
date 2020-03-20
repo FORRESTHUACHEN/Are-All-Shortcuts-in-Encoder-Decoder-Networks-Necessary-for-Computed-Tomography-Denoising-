@@ -5,4 +5,4 @@ The aim of this project is finding out the necessarity of all shortcuts in encod
 
 First of all, datasets which were used in our papaer can be found in Low Dose CT Grand Challenge (https://www.aapm.org/GrandChallenge/LowDoseCT/, called as LDGC in the following section)  and NSCLC-Radiomics(https://wiki.cancerimagingarchive.net/display/Public/NSCLC-Radiomics, called as LUNG 1 in the following section).
 
-As we mentionded in the paper, we simulated noisy images based on LDGC and LUNG 1, we 
+As we mentionded in the paper, we simulated noisy images based on LDGC and LUNG 1, we used Addnoiseinradiomic.m to finish this task, a matlab source code.
